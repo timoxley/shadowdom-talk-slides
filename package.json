@@ -1,0 +1,17 @@
+{
+  "name": "timoxley-shadowdom-talk",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "marked": "~0.2.10",
+    "hljs": "~6.2.3",
+    "highlight.js": "~7.4.0",
+    "polyfill-webcomponents": "0.0.3"
+  }
+}

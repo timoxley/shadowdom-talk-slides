@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="highlight.css">
+  </head>
+  <body>
+
+<h1 id="shadow-dom">Shadow DOM</h1>
+<h3 id="huh-what-">Huh? What?</h3>
+<h2 id="light-dom-vs-shadow-dom">Light DOM vs Shadow DOM</h2>
+<h3 id="light-dom-is-what-you-use-today-">Light DOM is what you use today.</h3>
+<h3 id="shadow-dom-is-what-you-will-be-using-in-the-future-">Shadow DOM is what you will be using in the future.</h3>
+<h2 id="shadow-dom-visually-replaces-existing-elements-">Shadow DOM visually replaces existing Elements.</h2>
+<h3>Hello World</h3>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">h3</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="title">h3</span>&gt;</span></code></pre>
+<play-script>
+var heading = currentSlide.querySelector('h3')
+var root = heading.createShadowRoot()
+</play-script>
+
+<h2 id="shadow-dom-is-a-sub-tree-inside-a-dom-node">Shadow DOM is a sub-tree inside a DOM node</h2>
+<h4 id="like-a-mini-iframe-that-replaces-an-element-">Like a mini-iframe that replaces an Element.</h4>
+<h3>Light DOM</h3>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">h3</span>&gt;</span>Light DOM<span class="tag">&lt;/<span class="title">h3</span>&gt;</span></code></pre>
+<play-script>
+var heading = currentSlide.querySelector('h3')
+var root = heading.createShadowRoot()
+root.innerHTML = '<a href="#">Shadow DOM</a>'
+</play-script>
+
+<hr>
+<h3 id="shadow-dom-view">Shadow DOM = view</h3>
+<h3 id="html-model">HTML = model</h3>
+<h2 id="you-can-inject-your-original-content-into-the-shadow-dom">You can inject your original content into the Shadow DOM</h2>
+<p><a href="#" id="anchor">Light DOM</a></p>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"anchor"</span>&gt;</span>Light DOM<span class="tag">&lt;/<span class="title">a</span>&gt;</span></code></pre>
+<play-script>
+var anchor = currentSlide.querySelector('#anchor')
+var root = anchor.createShadowRoot()
+root.innerHTML = '\
+  <a href="#">Shadow DOM</a>\
+  <content></content>'
+</play-script>
+
+<h2 id="how-is-this-useful-">How is this useful?</h2>
+<h2 id="remember-the-idea-of-semantic-markup-">Remember the idea of semantic markup?</h2>
+<h2 id="decouple-content-from-presentation-">Decouple content from presentation.</h2>
+<font size="30px">HEADING</font>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">font</span> <span class="attribute">size</span>=<span class="value">"30px"</span>&gt;</span>HEADING<span class="tag">&lt;/<span class="title">font</span>&gt;</span>
+<span class="comment">&lt;!-- bad --&gt;</span></code></pre>
+<h2 id="css">CSS</h2>
+<h3 id="great-on-small-scale-">Great on small scale.</h3>
+<h3 id="terrible-on-big-scale-">Terrible on big scale.</h3>
+<pre><code class="lang-html"><span class="comment">&lt;!-- vertically centered content --&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Container is-Table"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Table-Cell"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Block"</span>&gt;</span>
+    <span class="comment">&lt;!-- content --&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<pre><code class="lang-css"><span class="class">.Center-Container</span><span class="class">.is-Table</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> table</span></span>; <span class="rule">}</span></span>
+<span class="class">.is-Table</span> <span class="class">.Table-Cell</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> table-cell</span></span>;
+  <span class="rule"><span class="attribute">vertical-align</span>:<span class="value"> middle</span></span>;
+<span class="rule">}</span></span>
+<span class="class">.is-Table</span> <span class="class">.Center-Block</span> <span class="rules">{
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">50</span>%</span></span>;
+  <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto</span></span>;
+<span class="rule">}</span></span></code></pre>
+<h2 id="but-are-divs-classes-really-semantic-">But are divs &amp; classes really &#39;semantic&#39;?</h2>
+<h3 id="divs-class-abuse-is-about-as-good-as-we-get-in-html4">divs + class abuse is about as good as we get in HTML4</h3>
+<pre><code class="lang-html"><span class="comment">&lt;!-- Bootstrap 2 Panels --&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"panel panel-default"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"panel-heading"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h3</span> <span class="attribute">class</span>=<span class="value">"panel-title"</span>&gt;</span>Panel title<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"panel-body"</span>&gt;</span>
+    Panel content
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span></code></pre>
+<h2 id="things-are-getting-better">Things are getting better</h2>
+<h3 id="progress-on-both-ends-of-the-spectrum">Progress on both ends of the spectrum</h3>
+<h2 id="html5-gives-us-a-lot-more-semantic-elements-to-work-with">HTML5 gives us a lot more semantic elements to work with</h2>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">heading</span>&gt;</span>Heading<span class="tag">&lt;/<span class="title">heading</span>&gt;</span>
+<span class="tag">&lt;<span class="title">main</span>&gt;</span>Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">aside</span>&gt;</span>Sidebar<span class="tag">&lt;/<span class="title">aside</span>&gt;</span>
+<span class="tag">&lt;<span class="title">footer</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">footer</span>&gt;</span></code></pre>
+<h2 id="reality-html5-can-t-save-you-from-css">Reality: HTML5 can&#39;t save you from CSS</h2>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"page-wrapper"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"page-wrapper-inner"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">heading</span>&gt;</span><span class="tag">&lt;<span class="title">span</span>&gt;</span>Heading<span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">heading</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"main-wrapper"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">main</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"wrapper"</span>&gt;</span>
+          Content
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+      <span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">aside</span>&gt;</span>Sidebar<span class="tag">&lt;/<span class="title">aside</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">footer</span>&gt;</span><span class="tag">&lt;<span class="title">span</span>&gt;</span>Footer<span class="tag">&lt;/<span class="title">span</span>&gt;</span><span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="comment">&lt;!-- div spam --&gt;</span></code></pre>
+<h2 id="css-flexbox-makes-css-more-powerful-for-layouts">CSS Flexbox makes CSS more powerful for layouts</h2>
+<h3 id="-solved-by-flexbox-http-philipwalton-github-io-solved-by-flexbox-"><a href="http://philipwalton.github.io/solved-by-flexbox/">Solved by Flexbox</a></h3>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">body</span> <span class="attribute">class</span>=<span class="value">"HolyGrail"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">header</span>&gt;</span>...<span class="tag">&lt;/<span class="title">header</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"HolyGrail-body"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">main</span> <span class="attribute">class</span>=<span class="value">"HolyGrail-content"</span>&gt;</span>...<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">nav</span> <span class="attribute">class</span>=<span class="value">"HolyGrail-nav"</span>&gt;</span>...<span class="tag">&lt;/<span class="title">nav</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">aside</span> <span class="attribute">class</span>=<span class="value">"HolyGrail-ads"</span>&gt;</span>...<span class="tag">&lt;/<span class="title">aside</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">footer</span>&gt;</span>...<span class="tag">&lt;/<span class="title">footer</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span></code></pre>
+<pre><code class="lang-css"><span class="class">.HolyGrail</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> flex</span></span>;
+  <span class="rule"><span class="attribute">min-height</span>:<span class="value"> <span class="number">100</span>vh</span></span>;
+  <span class="rule"><span class="attribute">flex-direction</span>:<span class="value"> column</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.HolyGrail-body</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> flex</span></span>;
+  <span class="rule"><span class="attribute">flex</span>:<span class="value"> <span class="number">1</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.HolyGrail-content</span> <span class="rules">{
+  <span class="rule"><span class="attribute">flex</span>:<span class="value"> <span class="number">1</span></span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.HolyGrail-nav</span>, <span class="class">.HolyGrail-ads</span> <span class="rules">{
+  <span class="comment">/* 12em is the width of the columns */</span>
+  <span class="rule"><span class="attribute">flex</span>:<span class="value"> <span class="number">0</span> <span class="number">0</span> <span class="number">12</span>em</span></span>;
+<span class="rule">}</span></span>
+
+<span class="class">.HolyGrail-nav</span> <span class="rules">{
+  <span class="comment">/* put the nav on the left */</span>
+  <span class="rule"><span class="attribute">order</span>:<span class="value"> -<span class="number">1</span></span></span>;
+<span class="rule">}</span></span></code></pre>
+<h2 id="when-you-need-a-div-you-need-a-div">When you need a div you need a div</h2>
+<h2 id="pseudo-elements-before-after">Pseudo Elements :before :after</h2>
+<pre><code class="lang-css"><span class="id">#example</span><span class="pseudo">:before</span> <span class="rules">{
+   <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;
+   <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;
+   <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>px</span></span>;
+   <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>;
+<span class="rule">}</span></span></code></pre>
+<h2 id="shadow-dom">Shadow DOM</h2>
+<h2 id="hide-non-semantic-dom-in-the-shadow-dom">Hide non-semantic DOM in the Shadow DOM</h2>
+<p><main>Main Content</main></p>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span></code></pre>
+<play-script>
+// wrap main in a div
+var main = currentSlide.querySelector('main')
+var root = main.createShadowRoot()
+root.innerHTML = '\
+  <div style="border: 1px solid;">\
+    <content></content>\
+  </div>'
+</play-script>
+
+<h2 id="use-templates-to-keep-things-tidy">Use templates to keep things tidy</h2>
+<p><main>Main Content</main></p>
+<template id="template1">
+  <div style="border: 1px solid;">
+    <content></content>
+  </div>
+</template>
+
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"border: 1px solid;"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<play-script>
+// wrap main in a div
+var main = currentSlide.querySelector('main')
+var template = currentSlide.querySelector('template')
+var root = main.createShadowRoot()
+root.appendChild(template.content) 
+</play-script>
+
+<h2 id="wrap-different-content">Wrap different content</h2>
+<p><div class="body">
+  <heading>Heading</heading>
+  <main id="content">Content</main>
+</div></p>
+<template>
+  <style>
+    .green {
+      color: green;
+    }
+    .blue {
+      color: blue;
+    }
+  </style>
+  <div class="green"><content select="heading"></content></div>
+  <div class="blue"><content select="main"></content></div>
+</template>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"body"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">heading</span>&gt;</span>Heading<span class="tag">&lt;/<span class="title">heading</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">main</span> <span class="attribute">class</span>=<span class="value">"content"</span>&gt;</span>Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css">
+    <span class="class">.green</span> <span class="rules">{
+      <span class="rule"><span class="attribute">color</span>:<span class="value"> green</span></span>;
+    <span class="rule">}</span></span>
+    <span class="class">.blue</span> <span class="rules">{
+      <span class="rule"><span class="attribute">color</span>:<span class="value"> blue</span></span>;
+    <span class="rule">}</span></span>
+  </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"green"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">content</span> <span class="attribute">select</span>=<span class="value">"heading"</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"blue"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">content</span> <span class="attribute">select</span>=<span class="value">".content"</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<play-script>
+var body = currentSlide.querySelector('.body')
+var template = currentSlide.querySelector('template')
+var root = body.createShadowRoot()
+root.appendChild(template.content) 
+</play-script>
+
+<h2 id="hide-style-in-the-shadow-dom">Hide style in the Shadow DOM</h2>
+<h3 id="specificity-wars-suck">Specificity wars suck</h3>
+<p><main style="color: red;">Main Content</main></p>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span></code></pre>
+<pre><code class="lang-css">
+<span class="comment">/* someone else's CSS */</span>
+<span class="class">.slide</span> <span class="tag">div</span> <span class="tag">main</span> * <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> blue</span></span>;
+<span class="rule">}</span></span>
+
+<span class="comment">/* need highly specific selector */</span>
+<span class="comment">/* to override */</span>
+<span class="tag">body</span> <span class="class">.slide</span> <span class="tag">div</span> <span class="tag">main</span> * <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;
+<span class="rule">}</span></span></code></pre>
+<h2 id="ignore-the-rest-of-the-dom">Ignore the rest of the DOM</h2>
+<p><main>Main Content</main></p>
+<template>
+  <style>
+    * {
+      color: red;
+    }
+  </style>
+  <content></content>
+</template>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css">
+    * <span class="rules">{
+      <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;
+    <span class="rule">}</span></span>
+  </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<play-script>
+var main = currentSlide.querySelector('main')
+var template = currentSlide.querySelector('template')
+var root = main.createShadowRoot()
+root.appendChild(template.content)
+</play-script>
+
+<h2 id="shadow-dom-elements-are-unaffected-by-existing-page-styles">Shadow DOM elements are unaffected by existing page styles</h2>
+<p><a href="#" id="anchor">Light DOM</a></p>
+<template>
+  <a href="#">Shadow DOM</a>
+</template>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"anchor"</span>&gt;</span>Light DOM<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span>&gt;</span>Shadow DOM<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<pre><code class="lang-css"><span class="tag">a</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#B22D1A</span></span></span>; <span class="comment">/* red */</span>
+  <span class="rule"><span class="attribute">text-decoration</span>:<span class="value"> none</span></span>;
+<span class="rule">}</span></span></code></pre>
+<play-script>
+var anchor = currentSlide.querySelector('#anchor')
+var template = currentSlide.querySelector('template')
+var root = anchor.createShadowRoot()
+root.appendChild(template.content)
+</play-script>
+
+<h2 id="applying-page-styles">Applying page styles</h2>
+<p><main>Main Content</main></p>
+<template>
+  <a href="#"><content></content></a>
+</template>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span>&gt;</span><span class="tag">&lt;<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<play-script>
+var main = currentSlide.querySelector('main')
+var template = currentSlide.querySelector('template')
+root = main.createShadowRoot()
+root.appendChild(template.content)
+</play-script>
+
+<play-script>
+/* Toggle apply page styles */
+root.applyAuthorStyles = !root.applyAuthorStyles
+</play-script>
+
+<h2 id="inheriting-styles">Inheriting Styles</h2>
+<p><main>Main Content</main></p>
+<template>
+  <a href="#"><content></content></a>
+</template>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">template</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span>&gt;</span><span class="tag">&lt;<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">content</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">template</span>&gt;</span></code></pre>
+<play-script>
+var main = currentSlide.querySelector('main')
+var template = currentSlide.querySelector('template')
+root = main.createShadowRoot()
+root.appendChild(template.content)
+</play-script>
+
+<play-script>
+/* Toggle reset inherited styles */
+root.resetStyleInheritance = !root.resetStyleInheritance
+</play-script>
+
+<h2 id="allowing-external-styling">Allowing external styling</h2>
+<p><main id="content">Main Content</main></p>
+<style>
+#content::x-thumb {
+  background: green;
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+</style>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">main</span> <span class="attribute">id</span>=<span class="value">"content"</span>&gt;</span>Main Content<span class="tag">&lt;/<span class="title">main</span>&gt;</span>
+<span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css">
+<span class="id">#content</span><span class="pseudo">::x-thumb</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background</span>:<span class="value"> green</span></span>;
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">10</span>px</span></span>;
+  <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">10</span>px</span></span>;
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;
+<span class="rule">}</span></span>
+</span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></code></pre>
+<play-script>
+var main = currentSlide.querySelector('main')
+var template = currentSlide.querySelector('template')
+var root = main.createShadowRoot()
+var thumb = document.createElement('div');
+thumb.part = 'x-thumb';
+root.appendChild(thumb);
+</play-script>
+
+<h2 id="styling-native-elements">Styling Native Elements</h2>
+<progress value="35" max="100"></progress>
+
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">progress</span> <span class="attribute">value</span>=<span class="value">"35"</span> <span class="attribute">max</span>=<span class="value">"100"</span>&gt;</span><span class="tag">&lt;/<span class="title">progress</span>&gt;</span></code></pre>
+<pre><code class="lang-css"><span class="comment">/* important: disable native styling */</span>
+<span class="tag">progress</span><span class="class">.custom</span> <span class="rules">{
+  <span class="rule"><span class="attribute">-webkit-appearance</span>:<span class="value"> none</span></span>;
+<span class="rule">}</span></span>
+
+<span class="comment">/* style pseudo-elements */</span>
+<span class="tag">progress</span><span class="class">.custom</span><span class="pseudo">::-webkit-progress-bar</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background</span>:<span class="value"> burlywood</span></span>;
+<span class="rule">}</span></span>
+
+<span class="tag">progress</span><span class="class">.custom</span><span class="pseudo">::-webkit-progress-value</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background</span>:<span class="value"> coral</span></span>;
+<span class="rule">}</span></span></code></pre>
+<play-script>
+progress = currentSlide.querySelector('progress')
+progress.value += 5
+progress.value %= 100
+</play-script>
+
+<play-script>
+progress.classList.add('custom')
+</play-script>
+
+
+
+<h2 id="styling-native-elements-is-crucial">Styling native elements is crucial</h2>
+<h3 id="rebuilding-native-elements-is-awful-">Rebuilding native elements is awful.</h3>
+<h3 id="you-will-get-it-wrong-">You will get it wrong.</h3>
+<h3 id="many-elements-starting-to-expose-their-shadow-dom">Many elements starting to expose their Shadow DOM</h3>
+<h4 id="-https-gist-github-com-afabbro-3759334-https-gist-github-com-afabbro-3759334-"><a href="https://gist.github.com/afabbro/3759334"><a href="https://gist.github.com/afabbro/3759334">https://gist.github.com/afabbro/3759334</a></a></h4>
+<h2 id="browser-support">Browser Support</h2>
+<h3 id="evergreen-browsers-kinda-">Evergreen Browsers, kinda.</h3>
+<ul>
+  <li>Chrome</li>
+  <li>Canary</li>
+  <li>Chrome Android</li>
+  <li>Firefox</li>
+  <li>Safari 6+</li>
+  <li>Mobile Safari</li>
+  <li>Internet Explorer 10+</li>
+</ul>
+
+
+<h2 id="shadow-dom-is-what-you-will-be-using-in-the-future-">Shadow DOM is what you will be using in the future.</h2>
+<h3 id="keep-up-or-be-left-behind-">Keep up or be left behind.</h3>
+<h2 id="questions-">Questions?</h2>
+
+  <script src="build.js"></script>
+  </body>
+</html>
