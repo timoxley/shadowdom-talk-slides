@@ -16,17 +16,22 @@ var matches = function(el, selector) {
 }
 
 function splitwrap(parent, wrapper, splitSelector) {
+  if (window.ShadowDOMPolyfill) {
+    wrapper = window.ShadowDOMPolyfill.wrapIfNeeded(wrapper)
+  }
   parent = parent
   var els = slice(parent.children)
   return els.reduce(function(sections, el) {
     if (!sections.lastChild || matches(el, splitSelector)) {
       sections.appendChild(wrapper.cloneNode(true))
     }
-    sections.lastChild.appendChild(el.cloneNode(true))
-    el.parentElement.removeChild(el)
+    if (window.ShadowDOMPolyfill) {
+      el = window.ShadowDOMPolyfill.wrapIfNeeded(el)
+    }
+
+    sections.lastChild.appendChild(el)
     return sections
   }, document.createDocumentFragment())
-  console.log('?')
 }
 
 function nextSlide() {
